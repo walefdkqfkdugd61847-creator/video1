@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090d17">
+  <title>VideoUpscale AI</title>
+</head>
+<body>
+  <div id="app">
+    <header><div class="logo">Video<span>Upscale</span> AI</div><div class="tag">نسخة تجريبية</div></header>
+    <main>
+      <section class="hero"><small>تكبير دقة الفيديو</small><h1>فيديو أوضح،<br><span>بدقة أعلى</span></h1><p>اختر فيديو قصيرًا، ثم حدّد دقة الإخراج. المعالجة تتم داخل المتصفح باستخدام FFmpeg.</p></section>
+      <section class="panel">
+        <h2>١ — اختر الفيديو</h2>
+        <label class="drop" for="file">⬆️<b>اضغط لاختيار فيديو</b><span>ابدأ بمقطع MP4 قصير من 5 إلى 10 ثوانٍ</span></label>
+        <input id="file" type="file" accept="video/*">
+        <video id="preview" controls playsinline></video><div id="info" class="info">لم يتم اختيار ملف بعد.</div>
+      </section>
+      <section class="panel">
+        <h2>٢ — اختر الدقة</h2>
+        <div class="options">
+          <button type="button" class="opt active" data-h="720"><strong>HD</strong><span>720p</span></button>
+          <button type="button" class="opt" data-h="1080"><strong>Full HD</strong><span>1080p</span></button>
+          <button type="button" class="opt" data-h="2160"><strong>4K</strong><span>2160p رأسي / 3840p أفقي</span></button>
+        </div>
+        <label class="label" for="orientation">اتجاه الفيديو</label>
+        <select id="orientation"><option value="auto">الحفاظ على اتجاه الأصل</option><option value="portrait">رأسي 9:16</option><option value="landscape">أفقي 16:9</option></select>
+        <button id="process" disabled>تحميل المحرك وبدء المعالجة</button>
+        <div class="progress" id="progress"><div id="bar" class="bar"></div></div>
+        <div id="status" class="status">اختر فيديو أولًا. أول استخدام يحتاج إنترنت لتنزيل ملفات المحرك.</div>
+        <a id="download" download="upscaled.mp4">تنزيل الفيديو الناتج</a>
+        <video id="result" controls playsinline></video>
+        <div class="warning"><b>مهم:</b> هذا الإصدار يصلح مشكلة Worker بجعل Vite يضمّن عامل FFmpeg ضمن ملفات الموقع على نفس النطاق. هذه العملية تغيّر أبعاد الفيديو وتضغطه، لكنها لا تضيف تفاصيل بالذكاء الاصطناعي. ابدأ بـHD؛ معالجة 4K ثقيلة على الهاتف.</div>
+      </section>
+      <p class="foot">ملف الفيديو لا يُرفع إلى خادم معالجة. يلزم الإنترنت لتحميل المحرك أول مرة. قد تتوقف المعالجة على الأجهزة ذات الذاكرة المحدودة.</p>
+    </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
