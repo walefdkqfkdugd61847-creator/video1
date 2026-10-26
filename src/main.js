@@ -71,19 +71,20 @@ async function loadEngine() {
     bar.style.width = `${percent}%`;
   });
 
-  // Use a pinned FFmpeg core version and convert its files to Blob URLs.
-  // This avoids importing the core script directly from a different origin.
   const base =
-    'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd';
+    'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm';
 
-  const coreURL = await toBlobURL(
-    `${base}/ffmpeg-core.js`,
-    'text/javascript'
-  );
-
+  let coreURL;
   let wasmURL;
 
   try {
+    status.textContent = 'جارٍ تنزيل ملفات محرك المعالجة...';
+
+    coreURL = await toBlobURL(
+      `${base}/ffmpeg-core.js`,
+      'text/javascript'
+    );
+
     wasmURL = await toBlobURL(
       `${base}/ffmpeg-core.wasm`,
       'application/wasm'
@@ -96,8 +97,14 @@ async function loadEngine() {
 
     loaded = true;
     status.textContent = 'تم تحميل محرك المعالجة بنجاح.';
+  } catch (error) {
+    console.error('FFmpeg loading error:', error);
+
+    throw new Error(
+      `تعذر تحميل المحرك: ${error?.message || String(error)}`
+    );
   } finally {
-    URL.revokeObjectURL(coreURL);
+    if (coreURL) URL.revokeObjectURL(coreURL);
     if (wasmURL) URL.revokeObjectURL(wasmURL);
   }
 }
